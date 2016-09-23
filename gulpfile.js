@@ -15,7 +15,7 @@ gulp.task('bundle:dev', function() {
   };
 
   return browserify(browserifyOptions)
-    .transform(babel)
+  .transform(babel.configure({presets: ["es2015"]}))
     .bundle()
     .on('error', function(err) {
       console.log(err);

@@ -11,6 +11,7 @@ const users = require('./routes/users');
 // Set up mongoose
 const mongoose = require('mongoose');
 // You need to connect to your MongoDB here
+mongoose.connect('mongodb://localhost/user-list');
 
 const app = express();
 
