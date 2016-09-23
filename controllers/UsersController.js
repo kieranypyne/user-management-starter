@@ -23,7 +23,7 @@ module.exports = {
 
   edit(req, res, next) {
     var id = req.params.id;
-    UserModel.findOne({_id: id}, function(err, user) {
+    UserModel.findOne({_id: id}).exec()
       .then(user => {
         return res.json(user);
       })

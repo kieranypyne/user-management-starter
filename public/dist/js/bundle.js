@@ -1,21 +1,25 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-const $ = require('jquery');
-const Router = require('./router');
-const Backbone = require('backbone');
+'use strict';
+
+var $ = require('jquery');
+var Router = require('./router');
+var Backbone = require('backbone');
 
 // Set jQuery in the window
 window.$ = window.jQuery = $;
 
-const app = document.querySelector('#app');
+var app = document.querySelector('#app');
 
-const router = new Router();
+var router = new Router();
 Backbone.history.start();
 
 },{"./router":4,"backbone":9,"jquery":10}],2:[function(require,module,exports){
-const Backbone = require('backbone');
-const UserModel = require('../models/UserModel');
+'use strict';
 
-const UsersCollection = Backbone.Collection.extend({
+var Backbone = require('backbone');
+var UserModel = require('../models/UserModel');
+
+var UsersCollection = Backbone.Collection.extend({
   url: '/users',
   model: UserModel
 });
@@ -23,9 +27,11 @@ const UsersCollection = Backbone.Collection.extend({
 module.exports = UsersCollection;
 
 },{"../models/UserModel":3,"backbone":9}],3:[function(require,module,exports){
-const Backbone = require('backbone');
+'use strict';
 
-const UserModel = Backbone.Model.extend({
+var Backbone = require('backbone');
+
+var UserModel = Backbone.Model.extend({
   urlRoot: '/users',
   idAttribute: '_id'
 });
@@ -33,17 +39,19 @@ const UserModel = Backbone.Model.extend({
 module.exports = UserModel;
 
 },{"backbone":9}],4:[function(require,module,exports){
-const Backbone = require('backbone');
-const UsersCollection = require('./collections/UsersCollection');
-const UserModel = require('./models/UserModel');
-const UserEditView = require('./views/UserEditView');
-const UserItemView = require('./views/UserItemView');
-const UserListView = require('./views/UserListView');
-const UserProfileView = require('./views/UserProfileView');
+'use strict';
 
-let currentView;
+var Backbone = require('backbone');
+var UsersCollection = require('./collections/UsersCollection');
+var UserModel = require('./models/UserModel');
+var UserEditView = require('./views/UserEditView');
+var UserItemView = require('./views/UserItemView');
+var UserListView = require('./views/UserListView');
+var UserProfileView = require('./views/UserProfileView');
 
-const Router = Backbone.Router.extend({
+var currentView = void 0;
+
+var Router = Backbone.Router.extend({
   routes: {
     '/': 'users',
     'users/:id': 'user',
@@ -51,14 +59,13 @@ const Router = Backbone.Router.extend({
     '*users': 'users'
   },
 
-  users() {
-    const view = new UserListView({ collection: new UsersCollection() });
+  users: function users() {
+    var view = new UserListView({ collection: new UsersCollection() });
     setView(view);
   },
-
-  user(id) {
-    const user = new UserModel({ _id: id });
-    const view = new UserEditView({ model: user });
+  user: function user(id) {
+    var user = new UserModel({ _id: id });
+    var view = new UserEditView({ model: user });
     setView(view);
   }
 });
@@ -70,7 +77,7 @@ function setView(view) {
     currentView = view;
   }
 
-  const app = document.querySelector('#app');
+  var app = document.querySelector('#app');
   app.innerHTML = '';
   app.appendChild(view.render().el);
 };
@@ -78,31 +85,23 @@ function setView(view) {
 module.exports = Router;
 
 },{"./collections/UsersCollection":2,"./models/UserModel":3,"./views/UserEditView":5,"./views/UserItemView":6,"./views/UserListView":7,"./views/UserProfileView":8,"backbone":9}],5:[function(require,module,exports){
-const Backbone = require('backbone');
-const UserModel = require('../models/UserModel');
-const _ = require('lodash');
+'use strict';
 
-const UserEditView = Backbone.View.extend({
-  el: `<div class="edit"></div>`,
+var Backbone = require('backbone');
+var UserModel = require('../models/UserModel');
+var _ = require('lodash');
 
-  template: _template(`
-    <form class="" action="#users/ <%= user.get('_id')%>?_method=PUT" method="POST">
-      <input value="<%= user.get('name')%>" type="text" class="edit-form, edit-name" placeholder="Name"/>
+var UserEditView = Backbone.View.extend({
+  el: '<div class="edit"></div>',
 
-      <input value="<= user.get('email')%>" type="text" class="edit-form, edit-email" placeholder="Email"/>
-
-      <input value="<= user.get('image')%>" type="text" class="edit-form, edit-image" placeholder="Profile Picture"/>
-
-      <input value="<= user.get('bio')%>" type="text" class="edit-form, edit-bio" placeholder="Tell Me About Yourself"/>
-    </form>
-    `),
+  template: _template('\n    <form class="" action="#users/ <%= user.get(\'_id\')%>?_method=PUT" method="POST">\n      <input value="<%= user.get(\'name\')%>" type="text" class="edit-form, edit-name" placeholder="Name"/>\n\n      <input value="<= user.get(\'email\')%>" type="text" class="edit-form, edit-email" placeholder="Email"/>\n\n      <input value="<= user.get(\'image\')%>" type="text" class="edit-form, edit-image" placeholder="Profile Picture"/>\n\n      <input value="<= user.get(\'bio\')%>" type="text" class="edit-form, edit-bio" placeholder="Tell Me About Yourself"/>\n    </form>\n    '),
 
   events: {
     'submit form': 'handleFormSubmit'
   },
 
-  handleFormSubmit(e) {
-    const form = $(e.target);
+  handleFormSubmit: function handleFormSubmit(e) {
+    var form = $(e.target);
 
     this.model.save({
       name: form.find('input[name="name"]').val(),
@@ -110,19 +109,17 @@ const UserEditView = Backbone.View.extend({
       image: form.find('input[image="image"]').val(),
       bio: form.find('input[bio="bio"]').val()
     }, {
-      success: () => {
+      success: function success() {
         form.find('input[type="text"]').val('');
       }
     });
     e.preventDefault();
   },
-
-  initalize() {
+  initalize: function initalize() {
     this.model.fetch();
     this.listenTo(this.model, 'sync', this.render);
   },
-
-  render() {
+  render: function render() {
     this.$el.html(this.template({ user: this.model }));
     return this;
   }
@@ -131,46 +128,27 @@ const UserEditView = Backbone.View.extend({
 module.exports = UserEditView;
 
 },{"../models/UserModel":3,"backbone":9,"lodash":11}],6:[function(require,module,exports){
-const _ = require('lodash');
-const Backbone = require('backbone');
+'use strict';
 
-const UserItemView = Backbone.View.extend({
+var _ = require('lodash');
+var Backbone = require('backbone');
+
+var UserItemView = Backbone.View.extend({
   el: '<li></li>',
 
-  template: _.template(`
-    <div class="UserListBox"
-      <a href="#users/<%= user.get('_id') %>">
-        <img src="<%= user.get('image') %>" alt="Profile Pic"/>
-      </a>
-      <div>
-        <span> <%= user.get('name') %> </span>
-      </div>
-      <div>
-        <span> <%= user.get('email') %> </span>
-      </div>
-      <div>
-        <span> <%= user.get('bio') %> </span>
-      </div>
-      <div>
-        <label>Activated:</label>
-        <input type="checkbox" <%= user.get('activated') ? 'checked' : '' %> />
-      </div>
-    </div>
-  `),
+  template: _.template('\n    <div class="UserListBox"\n      <a href="#users/<%= user.get(\'_id\') %>">\n        <img src="<%= user.get(\'image\') %>" alt="Profile Pic"/>\n      </a>\n      <div>\n        <span> <%= user.get(\'name\') %> </span>\n      </div>\n      <div>\n        <span> <%= user.get(\'email\') %> </span>\n      </div>\n      <div>\n        <span> <%= user.get(\'bio\') %> </span>\n      </div>\n      <div>\n        <label>Activated:</label>\n        <input type="checkbox" <%= user.get(\'activated\') ? \'checked\' : \'\' %> />\n      </div>\n    </div>\n  '),
 
   events: {
     'click input[type="checkbox"]': 'handleCheckBox'
   },
 
-  handleCheckBox(e) {
+  handleCheckBox: function handleCheckBox(e) {
     this.model.save({ activated: e.target.checked });
   },
-
-  initialize() {
+  initialize: function initialize() {
     this.listenTo(this.model, 'sync', this.render);
   },
-
-  render() {
+  render: function render() {
     this.$el.html(this.template({ user: this.model }));
     return this;
 
@@ -185,51 +163,36 @@ const UserItemView = Backbone.View.extend({
 module.exports = UserItemView;
 
 },{"backbone":9,"lodash":11}],7:[function(require,module,exports){
-const Backbone = require('backbone');
-const UserItemView = require('./UserItemView');
-const UserModel = require('../models/UserModel');
+'use strict';
 
-const UserListView = backbone.View.extend({
-  el: `
-  <div>
-    <form action="/users" method="POST">
-      <input type="text" name="name" placeholder="Name"/>
+var Backbone = require('backbone');
+var UserItemView = require('./UserItemView');
+var UserModel = require('../models/UserModel');
 
-      <input type="text" name="email" placeholder="Email"/>
+var UserListView = backbone.View.extend({
+  el: '\n  <div>\n    <form action="/users" method="POST">\n      <input type="text" name="name" placeholder="Name"/>\n\n      <input type="text" name="email" placeholder="Email"/>\n\n      <input type="text" name="image" placeholder="Profile Picture"/>\n\n      <input type="text" name="bio" placeholder="Tell Me About Yourself"/>\n    </form>\n  </div>\n\n  <div>\n    <ul class="user-list"></ul>\n  </div>\n  ',
 
-      <input type="text" name="image" placeholder="Profile Picture"/>
-
-      <input type="text" name="bio" placeholder="Tell Me About Yourself"/>
-    </form>
-  </div>
-
-  <div>
-    <ul class="user-list"></ul>
-  </div>
-  `,
-
-  initalize() {
+  initalize: function initalize() {
     this.collection.fetch();
     this.listenTo(this.collection, 'update', this.render);
   },
+
 
   events: {
     'submit form': 'handleFormSubmit'
   },
 
-  handleFormSubmit(e) {
-    const form = $(e.target);
-    const user = new UserModel({
+  handleFormSubmit: function handleFormSubmit(e) {
+    var form = $(e.target);
+    var user = new UserModel({
       name: form.find('input[name="name"]').val(),
       email: form.find('input[name="email"]').val(),
       image: form.find('input[name="image"]').val(),
       bio: form.find('input[name="bio"]').val()
     });
-
-    const that = this;
-
+    var that = this;
     user.save(null, {
-      success: function () {
+      success: function success() {
         that.collection.add(user);
         form.find('input[type="text"]').val('');
         that.render();
@@ -237,13 +200,14 @@ const UserListView = backbone.View.extend({
     });
     e.preventDefault();
   },
+  render: function render() {
+    var _this = this;
 
-  render() {
     this.$el.find('ul').html('');
 
-    this.collection.each(user => {
-      const view = new UserItemView({ model: user });
-      this.$el.append(view.render().el);
+    this.collection.each(function (user) {
+      var view = new UserItemView({ model: user });
+      _this.$el.append(view.render().el);
     });
 
     return this;
@@ -253,46 +217,30 @@ const UserListView = backbone.View.extend({
 module.exports = UserListView;
 
 },{"../models/UserModel":3,"./UserItemView":6,"backbone":9}],8:[function(require,module,exports){
-const _ = require('lodash');
-const Backbone = require('backbone');
+'use strict';
 
-const UserProfileView = Backbone.View.extend({
+var _ = require('lodash');
+var Backbone = require('backbone');
+
+var UserProfileView = Backbone.View.extend({
   el: '<div class="profile"></div>',
 
-  template: _.template(`
-    <img src"<%= user.get('image') %>" alt="Profile Pic"/>
-    <div>
-      <label>Name:</label>
-      <span> <%= user.get('name') %></span>
-    </div>
-    <div>
-      <label>Email:</label>
-      <span> <%= user.get('email') %></span>
-    </div>
-    <div>
-      <label>Bio:</label>
-      <span> <%= user.get('bio') %></span>
-    </div>
-    <div>
-      <label>Activated:</label>
-      <input type="checkbox" name="activated" class="checkbox">
-    </div>
-  `),
+  template: _.template('\n    <img src"<%= user.get(\'image\') %>" alt="Profile Pic"/>\n    <div>\n      <label>Name:</label>\n      <span> <%= user.get(\'name\') %></span>\n    </div>\n    <div>\n      <label>Email:</label>\n      <span> <%= user.get(\'email\') %></span>\n    </div>\n    <div>\n      <label>Bio:</label>\n      <span> <%= user.get(\'bio\') %></span>\n    </div>\n    <div>\n      <label>Activated:</label>\n      <input type="checkbox" name="activated" class="checkbox">\n    </div>\n  '),
 
-  initialize() {
+  initialize: function initialize() {
     this.model.fetch();
     this.listenTo(this.model, 'sync', this.render);
   },
+
 
   events: {
     'click input[type="checkbox"]': 'handleCheckBox'
   },
 
-  handleCheckBox(e) {
+  handleCheckBox: function handleCheckBox(e) {
     this.model.save({ activated: e.target.checked });
   },
-
-  render() {
+  render: function render() {
     this.$el.html(this.template({ user: this.model }));
     return this;
 

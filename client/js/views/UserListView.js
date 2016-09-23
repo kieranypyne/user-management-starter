@@ -38,12 +38,12 @@ const UserListView = backbone.View.extend({
       image: form.find('input[name="image"]').val(),
       bio: form.find('input[name="bio"]').val(),
     });
-
+    var that = this;
     user.save(null, {
-      success() => {
-        this.collection.add(user);
+      success: function() {
+        that.collection.add(user);
         form.find('input[type="text"]').val('');
-        this.render();
+        that.render();
       }
     });
     e.preventDefault();

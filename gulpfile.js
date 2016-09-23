@@ -6,6 +6,8 @@ const browserify = require('browserify');
 const buffer = require('vinyl-buffer');
 const source = require('vinyl-source-stream');
 const nodemon = require('gulp-nodemon');
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
 
 // Bundle our Javascript files
 gulp.task('bundle:dev', function() {
@@ -14,8 +16,10 @@ gulp.task('bundle:dev', function() {
     debug: true
   };
 
+  console.log('fuck');
+
   return browserify(browserifyOptions)
-  .transform(babel.configure({presets: ["es2015"]}))
+    .transform(babel)
     .bundle()
     .on('error', function(err) {
       console.log(err);
@@ -30,8 +34,12 @@ gulp.task('bundle:dev', function() {
 
 // Bundle our scss files
 gulp.task('sass', function() {
+    const processors = [
+        autoprefixer({browsers: ['last 1 version']})
+    ];
     return gulp.src('./client/scss/app.scss')
         .pipe(sass())
+        .pipe(postcss(processors))
         .on('error', function(err) {
           console.log(err);
           this.emit('end');
