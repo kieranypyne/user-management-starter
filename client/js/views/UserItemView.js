@@ -46,7 +46,7 @@ const UserItemView = Backbone.View.extend({
     } else {
       this.$el.removeClass('activated');
     }
-    
+
   }
 });
 

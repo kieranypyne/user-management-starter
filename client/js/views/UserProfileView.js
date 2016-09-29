@@ -46,7 +46,7 @@ const UserProfileView = Backbone.View.extend({
     } else {
       this.$el.removeClass('activated');
     }
-    
+
   }
 });
 

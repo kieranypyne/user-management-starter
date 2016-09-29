@@ -53,7 +53,7 @@ var currentView = void 0;
 
 var Router = Backbone.Router.extend({
   routes: {
-    '/': 'users',
+    '': 'users',
     'users/:id': 'user',
     'users/:id/edit': 'userEdit',
     '*users': 'users'
@@ -94,7 +94,7 @@ var _ = require('lodash');
 var UserEditView = Backbone.View.extend({
   el: '<div class="edit"></div>',
 
-  template: _template('\n    <form class="" action="#users/ <%= user.get(\'_id\')%>?_method=PUT" method="POST">\n      <input value="<%= user.get(\'name\')%>" type="text" class="edit-form, edit-name" placeholder="Name"/>\n\n      <input value="<= user.get(\'email\')%>" type="text" class="edit-form, edit-email" placeholder="Email"/>\n\n      <input value="<= user.get(\'image\')%>" type="text" class="edit-form, edit-image" placeholder="Profile Picture"/>\n\n      <input value="<= user.get(\'bio\')%>" type="text" class="edit-form, edit-bio" placeholder="Tell Me About Yourself"/>\n    </form>\n    '),
+  template: _.template('\n    <form class="" action="#users/ <%= user.get(\'_id\')%>?_method=PUT" method="POST">\n      <input value="<%= user.get(\'name\')%>" type="text" class="edit-form, edit-name" placeholder="Name"/>\n\n      <input value="<= user.get(\'email\')%>" type="text" class="edit-form, edit-email" placeholder="Email"/>\n\n      <input value="<= user.get(\'image\')%>" type="text" class="edit-form, edit-image" placeholder="Profile Picture"/>\n\n      <input value="<= user.get(\'bio\')%>" type="text" class="edit-form, edit-bio" placeholder="Tell Me About Yourself"/>\n    </form>\n    '),
 
   events: {
     'submit form': 'handleFormSubmit'
@@ -115,7 +115,7 @@ var UserEditView = Backbone.View.extend({
     });
     e.preventDefault();
   },
-  initalize: function initalize() {
+  initialize: function initialize() {
     this.model.fetch();
     this.listenTo(this.model, 'sync', this.render);
   },
@@ -169,10 +169,10 @@ var Backbone = require('backbone');
 var UserItemView = require('./UserItemView');
 var UserModel = require('../models/UserModel');
 
-var UserListView = backbone.View.extend({
-  el: '\n  <div>\n    <form action="/users" method="POST">\n      <input type="text" name="name" placeholder="Name"/>\n\n      <input type="text" name="email" placeholder="Email"/>\n\n      <input type="text" name="image" placeholder="Profile Picture"/>\n\n      <input type="text" name="bio" placeholder="Tell Me About Yourself"/>\n    </form>\n  </div>\n\n  <div>\n    <ul class="user-list"></ul>\n  </div>\n  ',
+var UserListView = Backbone.View.extend({
+  el: '\n  <div>\n    <form action="/users" method="POST">\n      <input type="text" name="name" placeholder="Name"/>\n\n      <input type="text" name="email" placeholder="Email"/>\n\n      <input type="text" name="image" placeholder="Profile Picture"/>\n\n      <input type="text" name="bio" placeholder="Tell Me About Yourself"/>\n\n      <input type="submit" value="Submit"/>\n    </form>\n  </div>\n\n  <div>\n    <ul class="user-list"></ul>\n  </div>\n  ',
 
-  initalize: function initalize() {
+  initialize: function initialize() {
     this.collection.fetch();
     this.listenTo(this.collection, 'update', this.render);
   },

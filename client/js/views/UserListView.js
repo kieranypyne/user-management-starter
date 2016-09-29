@@ -2,7 +2,7 @@ const Backbone = require('backbone');
 const UserItemView = require('./UserItemView');
 const UserModel = require('../models/UserModel')
 
-const UserListView = backbone.View.extend({
+const UserListView = Backbone.View.extend({
   el: `
   <div>
     <form action="/users" method="POST">
@@ -13,6 +13,8 @@ const UserListView = backbone.View.extend({
       <input type="text" name="image" placeholder="Profile Picture"/>
 
       <input type="text" name="bio" placeholder="Tell Me About Yourself"/>
+
+      <input type="submit" value="Submit"/>
     </form>
   </div>
 
@@ -21,7 +23,7 @@ const UserListView = backbone.View.extend({
   </div>
   `,
 
-  initalize() {
+  initialize() {
     this.collection.fetch();
     this.listenTo(this.collection, 'update', this.render);
   },

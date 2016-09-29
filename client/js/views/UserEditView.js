@@ -5,7 +5,7 @@ const _ = require('lodash');
 const UserEditView = Backbone.View.extend({
   el: `<div class="edit"></div>`,
 
-  template: _template(`
+  template: _.template(`
     <form class="" action="#users/ <%= user.get('_id')%>?_method=PUT" method="POST">
       <input value="<%= user.get('name')%>" type="text" class="edit-form, edit-name" placeholder="Name"/>
 
@@ -37,7 +37,7 @@ const UserEditView = Backbone.View.extend({
       e.preventDefault();
     },
 
-    initalize() {
+    initialize() {
       this.model.fetch();
       this.listenTo(this.model, 'sync', this.render);
     },

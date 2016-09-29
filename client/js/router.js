@@ -10,7 +10,7 @@ let currentView;
 
 const Router = Backbone.Router.extend({
   routes: {
-    '/' : 'users',
+    '' : 'users',
     'users/:id' : 'user',
     'users/:id/edit' : 'userEdit',
     '*users' : 'users'
